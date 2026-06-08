@@ -235,6 +235,8 @@ curl -X PATCH http://localhost:5050/api/alertas/1/resolver
 
 ## 📊 Diagrama de Classes
 
+![Diagrama de Classes](evidencias/diagrama_classes.png)
+
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                      <<interface>>                              │
