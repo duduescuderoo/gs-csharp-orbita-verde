@@ -1,0 +1,31 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+
+# Banco de dados SQLite (gerado em runtime)
+*.db
+*.db-shm
+*.db-wal
+
+# Secrets
+appsettings.Development.json
+*.pfx
+
+# IDE
+.vscode/
+.idea/
+*.DotSettings.user
+
+# NuGet
+.nuget/
+packages/
+*.nupkg
