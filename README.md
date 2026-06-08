@@ -287,52 +287,20 @@ Satelite    ──(1:N)──► RegiaoAtiva
 
 Os arquivos JSON com as respostas reais da API estão na pasta [`evidencias/`](./evidencias/):
 
-| Arquivo | Endpoint | Descrição |
-|---|---|---|
-| `01_satelites.json` | `GET /api/satelites` | Lista de satélites com nível de alerta e tempo em operação |
-| `02_sensores.json` | `GET /api/sensores` | Sensores de solo com status de monitoramento |
-| `03_regioes_ativas.json` | `GET /api/regioesativas` | Regiões monitoradas com alertas vinculados |
-| `04_painel_alertas.json` | `GET /api/alertas/painel` | Dashboard: total, abertos, por nível e categoria |
-| `05_monitoramento.json` | `GET /api/satelites/monitoramento` | Ciclo de monitoramento dos satélites ativos |
-| `06_erro_404.txt` | `GET /api/satelites/999` | Tratamento de `RecursoNaoEncontradoException` → HTTP 404 |
+**GET /api/satelites** — Lista de satélites com nível de alerta e tempo em operação:
+![Print Satélites](evidencias/print_01_satelites.png)
 
-### Exemplo — Painel de Alertas (`GET /api/alertas/painel`)
+**GET /api/alertas/painel** — Dashboard de alertas por nível e categoria:
+![Print Painel](evidencias/print_04_painel.png)
 
-```json
-{
-  "geradoEm": "08/06/2026 02:14:58 UTC",
-  "totalAlertas": 2,
-  "abertos": 2,
-  "resolvidos": 0,
-  "porNivel": { "normal": 0, "alerta": 1, "perigo": 1 },
-  "porCategoria": [
-    { "categoria": "Flare Solar", "total": 1 },
-    { "categoria": "Queimada",    "total": 1 }
-  ],
-  "alertasMaisRecentes": [
-    { "id": 2, "titulo": "Queimada de grande porte no sul do Pará", "nivel": "PERIGO", "criadoEm": "06/06/2026 10:00" },
-    { "id": 1, "titulo": "Flare Classe M detectado em AR3800",      "nivel": "ALERTA", "criadoEm": "05/06/2026 14:30" }
-  ]
-}
-```
+**GET /api/regioesativas** — Regiões monitoradas:
+![Print Regiões](evidencias/print_03_regioes.png)
 
-### Exemplo — Satélites (`GET /api/satelites`)
+**GET /api/satelites/monitoramento** — Ciclo de monitoramento dos satélites ativos:
+![Print Monitoramento](evidencias/print_05_monitoramento.png)
 
-```json
-[
-  {
-    "id": 1, "nome": "GOES-16", "fabricante": "NASA / NOAA",
-    "tipoOrbita": "GEO", "altitudeOrbitaKm": 35786,
-    "tempoEmOperacaoDias": 3488, "nivelAlerta": "ALERTA",
-    "statusMonitoramento": "[Satélite] GOES-16 | Órbita: GEO a 35786 km | Sensores: 6 | Nível: ALERTA"
-  },
-  {
-    "id": 2, "nome": "Aqua (MODIS)", "fabricante": "NASA",
-    "tipoOrbita": "LEO", "altitudeOrbitaKm": 705,
-    "tempoEmOperacaoDias": 8801, "nivelAlerta": "ALERTA"
-  }
-]
-```
+**GET /api/satelites/999** — Tratamento de `RecursoNaoEncontradoException` → HTTP 404:
+![Print 404](evidencias/print_06_404.png)
 
 ---
 
