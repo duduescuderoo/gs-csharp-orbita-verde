@@ -49,24 +49,6 @@ Queimadas e eventos solares extremos causam bilhões em prejuízos anualmente. A
 
 ## 🏗️ Arquitetura e OOP
 
-### Hierarquia de Classes
-
-```
-IMonitoravel (interface)
-    │
-    ├── EquipamentoEspacial (classe abstrata)
-    │       ├── Satelite
-    │       └── SensorSolo
-    │
-    └── Alerta (classe abstrata)
-            ├── AlertaFlare
-            └── AlertaQueimada
-
-RegiaoAtiva (entidade independente)
-NivelAlerta (enum: NORMAL, ALERTA, PERIGO)
-RecursoNaoEncontradoException (exceção específica)
-```
-
 ### Pilares de OOP aplicados
 
 | Pilar | Onde |
@@ -237,55 +219,9 @@ curl -X PATCH http://localhost:5050/api/alertas/1/resolver
 
 ![Diagrama de Classes](evidencias/diagrama_classes.png)
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                      <<interface>>                              │
-│                       IMonitoravel                              │
-│─────────────────────────────────────────────────────────────────│
-│ + ObterNivelAlerta() : NivelAlerta                              │
-│ + RealizarMonitoramento() : string                              │
-│ + EstaAtivo : bool                                              │
-└──────────────────────┬──────────────────────────────────────────┘
-                       │ implements
-         ┌─────────────┴─────────────┐
-         │                           │
-┌────────▼──────────────┐   ┌────────▼──────────────┐
-│   <<abstract>>        │   │   <<abstract>>         │
-│  EquipamentoEspacial  │   │        Alerta          │
-│───────────────────────│   │────────────────────────│
-│ + Id : int            │   │ + Id : int             │
-│ + Nome : string       │   │ + Titulo : string      │
-│ + Fabricante : string │   │ + Nivel : NivelAlerta  │
-│ + DataLancamento      │   │ + CriadoEm : DateTime  │
-│ + EstaAtivo : bool    │   │ + ResolvidoEm : DateTime?│
-│───────────────────────│   │────────────────────────│
-│ + ObterTipo() *       │   │ + ObterCategoria() *   │
-│ + TempoEmOperacao()   │   │ + GerarMensagem()      │
-│ + RealizarMonit...()  │   │ + Resolver()           │
-└──────────┬────────────┘   └──────────┬─────────────┘
-           │ extends                   │ extends
-    ┌──────┴──────┐             ┌──────┴──────┐
-    │             │             │             │
-┌───▼───┐  ┌─────▼──────┐ ┌───▼──────┐ ┌───▼──────────┐
-│Satelite│  │ SensorSolo │ │AlertaFlare│ │AlertaQueimada│
-│────────│  │────────────│ │──────────│ │──────────────│
-│Altitude│  │Localizacao │ │ClasseFlare│ │ AreaHectares │
-│TipoOrb.│  │TipoSensor  │ │Intensidade│ │Temperatura   │
-│QtdSens.│  │UltimaLeit. │ │Duracao   │ │Bioma         │
-└────────┘  └────────────┘ └──────────┘ └──────────────┘
-
-RegiaoAtiva ──(1:N)──► Alerta
-Satelite    ──(1:N)──► RegiaoAtiva
-
-<<enum>> NivelAlerta: NORMAL | ALERTA | PERIGO
-<<exception>> RecursoNaoEncontradoException : Exception
-```
-
 ---
 
 ## 📸 Evidências de Execução
-
-Os arquivos JSON com as respostas reais da API estão na pasta [`evidencias/`](./evidencias/):
 
 **GET /api/satelites** — Lista de satélites com nível de alerta e tempo em operação:
 ![Print Satélites](evidencias/print_01_satelites.png)
