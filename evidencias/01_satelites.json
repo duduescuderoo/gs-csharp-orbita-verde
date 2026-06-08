@@ -1,0 +1,30 @@
+﻿[
+    {
+        "id":  1,
+        "nome":  "GOES-16",
+        "fabricante":  "NASA / NOAA",
+        "estaAtivo":  true,
+        "tipoOrbita":  "GEO",
+        "altitudeOrbitaKm":  35786,
+        "quantidadeSensores":  6,
+        "dataLancamento":  "19/11/2016",
+        "tempoEmOperacaoDias":  3488,
+        "nivelAlerta":  "ALERTA",
+        "statusMonitoramento":  "[Satélite] GOES-16 | Órbita: GEO a 35786 km | Sensores: 6 | Nível: ALERTA | Regiões monitoradas: 1",
+        "totalRegioesMonitoradas":  1
+    },
+    {
+        "id":  2,
+        "nome":  "Aqua (MODIS)",
+        "fabricante":  "NASA",
+        "estaAtivo":  true,
+        "tipoOrbita":  "LEO",
+        "altitudeOrbitaKm":  705,
+        "quantidadeSensores":  36,
+        "dataLancamento":  "04/05/2002",
+        "tempoEmOperacaoDias":  8801,
+        "nivelAlerta":  "ALERTA",
+        "statusMonitoramento":  "[Satélite] Aqua (MODIS) | Órbita: LEO a 705 km | Sensores: 36 | Nível: ALERTA | Regiões monitoradas: 1",
+        "totalRegioesMonitoradas":  1
+    }
+]

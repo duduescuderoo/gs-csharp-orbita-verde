@@ -1,0 +1,14 @@
+﻿{
+    "id":  3,
+    "nome":  "Sensor-AM-001",
+    "localizacao":  "Manaus, AM",
+    "tipoSensor":  "TERMICO",
+    "estaAtivo":  true,
+    "latitude":  -3.119,
+    "longitude":  -60.0217,
+    "ultimaLeitura":  302.5,
+    "ultimaLeituraEm":  "07/06/2026 20:00",
+    "nivelAlerta":  "PERIGO",
+    "statusMonitoramento":  "[Sensor de Solo] Sensor-AM-001 | Tipo: TERMICO | Local: (-3,1190, -60,0217) | Última leitura: 302,5 (há 391,0 min) | Nível: PERIGO",
+    "tipo":  "Sensor de Solo"
+}

@@ -233,6 +233,107 @@ curl -X PATCH http://localhost:5050/api/alertas/1/resolver
 
 ---
 
+## 📊 Diagrama de Classes
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                      <<interface>>                              │
+│                       IMonitoravel                              │
+│─────────────────────────────────────────────────────────────────│
+│ + ObterNivelAlerta() : NivelAlerta                              │
+│ + RealizarMonitoramento() : string                              │
+│ + EstaAtivo : bool                                              │
+└──────────────────────┬──────────────────────────────────────────┘
+                       │ implements
+         ┌─────────────┴─────────────┐
+         │                           │
+┌────────▼──────────────┐   ┌────────▼──────────────┐
+│   <<abstract>>        │   │   <<abstract>>         │
+│  EquipamentoEspacial  │   │        Alerta          │
+│───────────────────────│   │────────────────────────│
+│ + Id : int            │   │ + Id : int             │
+│ + Nome : string       │   │ + Titulo : string      │
+│ + Fabricante : string │   │ + Nivel : NivelAlerta  │
+│ + DataLancamento      │   │ + CriadoEm : DateTime  │
+│ + EstaAtivo : bool    │   │ + ResolvidoEm : DateTime?│
+│───────────────────────│   │────────────────────────│
+│ + ObterTipo() *       │   │ + ObterCategoria() *   │
+│ + TempoEmOperacao()   │   │ + GerarMensagem()      │
+│ + RealizarMonit...()  │   │ + Resolver()           │
+└──────────┬────────────┘   └──────────┬─────────────┘
+           │ extends                   │ extends
+    ┌──────┴──────┐             ┌──────┴──────┐
+    │             │             │             │
+┌───▼───┐  ┌─────▼──────┐ ┌───▼──────┐ ┌───▼──────────┐
+│Satelite│  │ SensorSolo │ │AlertaFlare│ │AlertaQueimada│
+│────────│  │────────────│ │──────────│ │──────────────│
+│Altitude│  │Localizacao │ │ClasseFlare│ │ AreaHectares │
+│TipoOrb.│  │TipoSensor  │ │Intensidade│ │Temperatura   │
+│QtdSens.│  │UltimaLeit. │ │Duracao   │ │Bioma         │
+└────────┘  └────────────┘ └──────────┘ └──────────────┘
+
+RegiaoAtiva ──(1:N)──► Alerta
+Satelite    ──(1:N)──► RegiaoAtiva
+
+<<enum>> NivelAlerta: NORMAL | ALERTA | PERIGO
+<<exception>> RecursoNaoEncontradoException : Exception
+```
+
+---
+
+## 📸 Evidências de Execução
+
+Os arquivos JSON com as respostas reais da API estão na pasta [`evidencias/`](./evidencias/):
+
+| Arquivo | Endpoint | Descrição |
+|---|---|---|
+| `01_satelites.json` | `GET /api/satelites` | Lista de satélites com nível de alerta e tempo em operação |
+| `02_sensores.json` | `GET /api/sensores` | Sensores de solo com status de monitoramento |
+| `03_regioes_ativas.json` | `GET /api/regioesativas` | Regiões monitoradas com alertas vinculados |
+| `04_painel_alertas.json` | `GET /api/alertas/painel` | Dashboard: total, abertos, por nível e categoria |
+| `05_monitoramento.json` | `GET /api/satelites/monitoramento` | Ciclo de monitoramento dos satélites ativos |
+| `06_erro_404.txt` | `GET /api/satelites/999` | Tratamento de `RecursoNaoEncontradoException` → HTTP 404 |
+
+### Exemplo — Painel de Alertas (`GET /api/alertas/painel`)
+
+```json
+{
+  "geradoEm": "08/06/2026 02:14:58 UTC",
+  "totalAlertas": 2,
+  "abertos": 2,
+  "resolvidos": 0,
+  "porNivel": { "normal": 0, "alerta": 1, "perigo": 1 },
+  "porCategoria": [
+    { "categoria": "Flare Solar", "total": 1 },
+    { "categoria": "Queimada",    "total": 1 }
+  ],
+  "alertasMaisRecentes": [
+    { "id": 2, "titulo": "Queimada de grande porte no sul do Pará", "nivel": "PERIGO", "criadoEm": "06/06/2026 10:00" },
+    { "id": 1, "titulo": "Flare Classe M detectado em AR3800",      "nivel": "ALERTA", "criadoEm": "05/06/2026 14:30" }
+  ]
+}
+```
+
+### Exemplo — Satélites (`GET /api/satelites`)
+
+```json
+[
+  {
+    "id": 1, "nome": "GOES-16", "fabricante": "NASA / NOAA",
+    "tipoOrbita": "GEO", "altitudeOrbitaKm": 35786,
+    "tempoEmOperacaoDias": 3488, "nivelAlerta": "ALERTA",
+    "statusMonitoramento": "[Satélite] GOES-16 | Órbita: GEO a 35786 km | Sensores: 6 | Nível: ALERTA"
+  },
+  {
+    "id": 2, "nome": "Aqua (MODIS)", "fabricante": "NASA",
+    "tipoOrbita": "LEO", "altitudeOrbitaKm": 705,
+    "tempoEmOperacaoDias": 8801, "nivelAlerta": "ALERTA"
+  }
+]
+```
+
+---
+
 ## 🌱 Conexão com a Plataforma OrbitaVerde
 
 Esta API é o backend central da plataforma OrbitaVerde, que inclui:
