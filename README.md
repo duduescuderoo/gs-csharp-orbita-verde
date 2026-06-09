@@ -28,7 +28,7 @@ Esta API foi desenvolvida como entrega da disciplina **C# Software Development**
 | Luca Monteiro | RM556906 |
 | Arthur Silva | RM553320 |
 | Eduardo Escudero | RM556527 |
-| Leonardo Munhoz | RM556824 |
+
 
 **Disciplina:** C# Software Development  
 **Instituição:** FIAP — Faculdade de Informática e Administração Paulista  
